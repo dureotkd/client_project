@@ -1,30 +1,33 @@
 import React, { useState } from 'react'
 
 const Game = () => {
+
   const [math, setMath] = useState
   (
     [
-      [0, "-", 2, "+", 4, 5],
-      [6, 7, 8, "*", 10, "+"],
-      ["+", 1, 9, "/", 11]
+      [],
+      [],
+      [],
+      [],
+      []
     ]
   );
 
   function generateRandomMatrix() {
-    const newMath = [...math];
-    const newMAth1 = [...newMath[0].sort(() => Math.random() - 0.5)];
-    const newMAth2 = [...newMath[1].sort(() => Math.random() - 0.5)];
-    const newMAth3 = [...newMath[2].sort(() => Math.random() - 0.5)];
-
-    shuffleMatrix(newMath);
+    const matrix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "-", "+", "*", "/", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "-", "+", "*", "/"];
+    shuffleMatrix(matrix);
+    const a = matrix.splice(0, 5);
+    const b = matrix.splice(0, 5);
+    const c = matrix.splice(0, 5);
+    const d = matrix.splice(0, 5);
+    const e = matrix.splice(0, 5);
+    const newMath = [[...a], [...b], [...c], [...d], [...e]];
     setMath(newMath);
+    console.log(newMath);
   }
 
   function shuffleMatrix(matrix) { 
-    for (let i = matrix.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [matrix[i], matrix[j]] = [matrix[j], matrix[i]];
-    }
+    matrix.sort(() => Math.random() - 0.5);
     return matrix;
   }
 
