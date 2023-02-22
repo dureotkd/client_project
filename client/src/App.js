@@ -15,16 +15,18 @@ function App() {
       setShowChat(true);
     }
   }
-  // handleKeyPress = (e) => {
-  //   if (e.key === 'Enter') {
-  //     joinRoom();
-  //   }
-  // }
   return (
     <div className="App">
       {!showChat ? (
         <>
-          <h1>hello team! Join our game</h1>
+          <h1>hello team!</h1>
+          <h2>Rules</h2>
+          <div>
+            <ol>
+              <li>Enter your name and find your room ID</li>
+              <li>Click the button to join a room</li>
+            </ol>
+          </div>
           <input type="text"
             placeholder='your name'
             onChange={(e) => {
