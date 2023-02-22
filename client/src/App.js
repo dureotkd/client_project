@@ -15,7 +15,11 @@ function App() {
       setShowChat(true);
     }
   }
-
+  // handleKeyPress = (e) => {
+  //   if (e.key === 'Enter') {
+  //     joinRoom();
+  //   }
+  // }
   return (
     <div className="App">
       {!showChat ? (
