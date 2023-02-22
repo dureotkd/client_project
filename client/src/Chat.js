@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
+import Game from './game/Game';
 const Chat = ({ socket, username, room }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
@@ -67,7 +68,7 @@ const Chat = ({ socket, username, room }) => {
                 />
                 <button onClick={sendMessage}>Send</button>
             </div>
-
+            <Game />
         </div>
     )
 }
