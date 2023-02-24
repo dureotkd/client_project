@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import AlphabetGenerator from './AlphabetGenerator';
-import MatrixGenerator from './MatrixGenerator';
-import generateRandomMatrix from './MatrixGenerator';
-const Game = () => {
+import './Game.css';
+
+const Game = ({ socket, username, room }) => {
   const [timer, setTimer] = useState(true);
   const [showButton, setShowButton] = useState(true);
   const [showRandomNumbers, setShowRandomNumbers] = useState(false);
-
   let count = 0;
-  const timeoutId = null;
   
   const [alphabetList, setAlphabetList] = useState
   (
@@ -76,28 +73,12 @@ const Game = () => {
     matrix.sort(() => Math.random() - 0.5);
     return matrix;
   }
+  // TODO: Add a function to show rules (onClick)
   return (
     <>
-    <div>
-      <h1>Game</h1>
-      <h2>Game Rule</h2>
-      <div>
-        <ol>
-          {/* DONE */}
-          <li>When you are ready, click generate game button</li>
-          {/* DONE */}
-          <li>If you click generate game button then random numbers and math operators on 5 x 5 grid table will appear</li>
-          <li>You need to remember the numbers and operators in 10 seconds</li>
-          <li>After 10 seconds, random number will disappear and alphabet grid will appear</li>
-          <li><strong>!REMEMBER THE RANDOM NUMBER!</strong></li>
-          <li>type your name in the chat to guess your matching alphabet</li>
-          <li>chat will be paused while the player is guessing and will show the random number or math operators based on your chosen alphabet</li>
-          <li>Type the alphabet that can make a random number using numbers and math operators</li>
-          <li>if you find a matching number and math operators then you won!</li>
-        </ol>
-      </div>
+    <div className='container'>
       {showRandomNumbers && timer? (
-      <table>
+      <table className='table-container'>
         <tbody>
           {math.map((item, index) => (
           <tr key={index}>
@@ -105,20 +86,20 @@ const Game = () => {
             <td key={index}>{item}</td>
             ))}
           </tr>
+          ))}
+        </tbody>
+      </table>
+      ) : (
+        <table className='table-container'>
+          <tbody>
+            {alphabetList.map((item, index) => (
+            <tr key={index}>
+              {item.map((item, index) => (
+              <td key={index}>{item}</td>
+              ))}
+            </tr>
             ))}
           </tbody>
-            </table>
-      ) : (
-        <table>
-        <tbody>
-            {alphabetList.map((item, index) => (
-              <tr key={index}>
-                {item.map((item, index) => (
-                  <td key={index}>{item}</td>
-                ))}
-              </tr>
-            ))}
-        </tbody>
       </table>
       )}
       {showButton && (

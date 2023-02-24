@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import Game from './game/Game';
+import './App.css';
+
 const Chat = ({ socket, username, room }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
@@ -31,44 +33,51 @@ const Chat = ({ socket, username, room }) => {
     }, [socket]);
 
     return (
-        <div>
-            <div className='chat-header'>
-                <p>Live Chat</p>
+        <div className='container'>
+            <h1>Matching Number Smart Game</h1>
+            <h2>Game Rule</h2>
+            <div className='game'>
+                <Game socket={socket} username={username} room={room}/>
             </div>
-            <div className='chat-body'>
-                <ScrollToBottom className='scroll-to-bottom'>
-                    {messageList.map((messageContent) => {
-                        return (
-                            <div className='message' id={username === messageContent.author ? "me" : "other"}>
-                                <div>
-                                    <div className='message-content'>
-                                        <p>{messageContent.message}</p>
-                                    </div>
-                                    <div className='message-time'>
-                                        <p id="time">{messageContent.time}</p>
-                                        <p id="author">{messageContent.author}</p>
+            <div className='chat'>
+                <div className='chat-header'>
+                    <p>Live Chat</p>
+                </div>
+                <div className='chat-body'>
+                    <ScrollToBottom className='scroll-to-bottom'>
+                        {messageList.map((messageContent) => {
+                            return (
+                                <div className='message' id={username === messageContent.author ? "me" : "other"}>
+                                    <div>
+                                        <div className='message-content'>
+                                            <p>{messageContent.message}</p>
+                                        </div>
+                                        <div className='message-time'>
+                                            <p id="time">{messageContent.time}</p>
+                                            <p id="author">{messageContent.author}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
-                </ScrollToBottom>
+                            )
+                        })}
+                    </ScrollToBottom>
+                </div>
+                <div className='chat-footer'>
+                    <input type='text' placeholder='Type a message'
+                        value={currentMessage}
+                        onChange={(e) => {
+                            setCurrentMessage(e.target.value);
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                sendMessage(e);
+                            }
+                        }}
+                    />
+                    <button onClick={sendMessage}>Send</button>
+                </div>
             </div>
-            <div className='chat-footer'>
-                <input type='text' placeholder='Type a message'
-                    value={currentMessage}
-                    onChange={(e) => {
-                        setCurrentMessage(e.target.value);
-                    }}
-                    onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                            sendMessage(e);
-                        }
-                    }}
-                />
-                <button onClick={sendMessage}>Send</button>
-            </div>
-            <Game />
+
         </div>
     )
 }
