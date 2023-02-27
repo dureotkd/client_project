@@ -35,9 +35,6 @@ const Chat = ({ socket, username, room, messages }) => {
         <div className='container'>
             <h1>Matching Number Smart Game</h1>
             <h2>Game Rule</h2>
-            <div className='game'>
-                <Game socket={socket} username={username} room={room}/>
-            </div>
             <div className='chat'>
                 <div className='chat-header'>
                     <p>Live Chat</p>

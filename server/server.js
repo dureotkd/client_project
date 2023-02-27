@@ -38,9 +38,13 @@ io.on('connection', socket => {
   })
 
   socket.on('generate_game', (room, matrix) => {
-    console.log(room, matrix);
-    socket.broadcast.to(room).emit('send_game', matrix);
-    console.log(room, matrix);
+    socket.broadcast.to(room).emit('get_game', matrix);
+    console.log("????????????? " + room, matrix);
+  })
+
+  socket.on('generate_alphabet_ game', (room, alphabet) => {
+    socket.broadcast.to(room).emit('get_1game', alphabet);
+    console.log("????????????? " + room, alphabet);
   })
 
   socket.on('send_message', (data) => { 

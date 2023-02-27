@@ -46,6 +46,12 @@ const Game = ({ socket, username, room }) => {
     setShowRandomNumbers(true);
     generateRandomAlphabet();
     setShowButton(false);
+    socket.emit('generate_game', room, newMath);
+
+    socket.on('get_game', (game) => {
+      setMath(game);
+      console.log(game);
+    })
     const intervalId = setInterval(() => {
       count++;
       if (count === 10) {
@@ -55,14 +61,14 @@ const Game = ({ socket, username, room }) => {
       console.log(count);
     }, 1000)
 
-    socket.emit('generate_game', room, newMath);
-
-    socket.on('send_game', (game) => {
-      setMath(game);
-      console.log(game);
-    })
   }
-  console.log(math);
+  // console.log(math);
+  // console.log(alphabetList);
+  useEffect(() => {
+    console.log(math);
+    console.log(alphabetList);
+  });
+
   function generateRandomAlphabet() {
     const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     shuffleMatrix(alphabet);
@@ -73,9 +79,18 @@ const Game = ({ socket, username, room }) => {
     const j = alphabet.splice(0, 5);
 
     const newAlphabet = [[...f], [...g], [...h], [...i], [...j]];
-    setAlphabetList(newAlphabet);
+
+    socket.emit('generate_game', room, newAlphabet);
+
+    socket.on('get_1game', (game) => {
+      setAlphabetList(game);
+      console.log(game);
+    })
   }
 
+  console.log("Alphabet " + alphabetList);
+  console.log("Math " + math);
+  
   function shuffleMatrix(matrix) { 
     matrix.sort(() => Math.random() - 0.5);
     return matrix;
@@ -95,7 +110,10 @@ const Game = ({ socket, username, room }) => {
           </tr>
           ))}
         </tbody>
+        <button onClick={generateRandomMatrix}>generate game</button>
+
       </table>
+      
       ) : (
         <table className='table-container'>
           <tbody>
@@ -107,6 +125,8 @@ const Game = ({ socket, username, room }) => {
             </tr>
             ))}
           </tbody>
+          <button onClick={generateRandomMatrix}>generate game</button>
+
       </table>
       )}
       {showButton && (

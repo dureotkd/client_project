@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import Chat from './Chat';
 import Room from './Room';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import Game from './game/Game';
 
 const socket = io.connect('http://localhost:5000');
 
@@ -78,6 +79,7 @@ function App() {
         </>
       ) : (
         <>
+          <Game socket={socket} username={username} room={room}/>
           <Chat socket={socket} username={username} room={room} messages ={messages}/>
         </>
       )}
