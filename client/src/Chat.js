@@ -3,10 +3,9 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 import Game from './game/Game';
 import './App.css';
 
-const Chat = ({ socket, username, room }) => {
+const Chat = ({ socket, username, room, messages }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
-
     const sendMessage = async (e) => {
         e.preventDefault();
         if (currentMessage.trim() !== '') {
@@ -42,6 +41,15 @@ const Chat = ({ socket, username, room }) => {
             <div className='chat'>
                 <div className='chat-header'>
                     <p>Live Chat</p>
+                    <ScrollToBottom className='messages'>
+                        <div>
+                            {messages.map((msg) => {
+                                return (
+                                <h2>{msg.text}</h2>
+                                )
+                            })}
+                        </div>
+                    </ScrollToBottom>
                 </div>
                 <div className='chat-body'>
                     <ScrollToBottom className='scroll-to-bottom'>

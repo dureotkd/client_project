@@ -42,7 +42,7 @@ const Game = ({ socket, username, room }) => {
     const e = matrix.splice(0, 5);
 
     const newMath = [[...a], [...b], [...c], [...d], [...e]];
-    setMath(newMath);
+    
     setShowRandomNumbers(true);
     generateRandomAlphabet();
     setShowButton(false);
@@ -54,8 +54,15 @@ const Game = ({ socket, username, room }) => {
       } 
       console.log(count);
     }, 1000)
-  }
 
+    socket.emit('generate_game', room, newMath);
+
+    socket.on('send_game', (game) => {
+      setMath(game);
+      console.log(game);
+    })
+  }
+  console.log(math);
   function generateRandomAlphabet() {
     const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     shuffleMatrix(alphabet);

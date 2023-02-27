@@ -1,7 +1,9 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Chat from './Chat';
+import Room from './Room';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const socket = io.connect('http://localhost:5000');
 
@@ -9,12 +11,23 @@ function App() {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState([]);
   const joinRoom = () => {
     if (username !== '' && room !== '') {
-      socket.emit('join_room', room);
+      socket.emit('join_room', username, room);
       setShowChat(true);
     }
+    socket.on('message', (msg) => {
+      setMessages((messages) => [...messages, msg]);
+    })
   }
+
+  // useEffect(() => {
+  //   socket.on('message', (msg) => {
+  //     setMessages((messages) => [...messages, msg]);
+  //   })
+  //   console.log(messages);
+  // })
   return (
     <div className="App">
       {!showChat ? (
@@ -64,7 +77,9 @@ function App() {
           </button>
         </>
       ) : (
-        <Chat socket={socket} username={username} room={room} />
+        <>
+          <Chat socket={socket} username={username} room={room} messages ={messages}/>
+        </>
       )}
     </div>
   );

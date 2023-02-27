@@ -3,7 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const app = express();
-const { addUser, getUser, getUsersInRoom } = require('./users')
+const { addUser, getUser, getUsersInRoom } = require('./users.js')
 
 require('dotenv').config();
 
@@ -19,14 +19,32 @@ const io = new Server(server, {
 });
 
 io.on('connection', socket => {
-  console.log(`User Connected ${socket.id}`);
+  console.log("new connection !!");
 
-  socket.on('join_room', (data) => {
-    socket.join(data);
+  socket.on('join_room', (username, room) => {
+
+    // say user joined
+    socket.emit('message', {
+      user: 'admin',
+      text: `${username} has joined the room ${room}`
+    })
+
+    socket.broadcast.to(room).emit('message', {
+      user: 'admin',
+      text: `${username} has joined the room ${room}`
+    })
+
+    socket.join(room);
+  })
+
+  socket.on('generate_game', (room, matrix) => {
+    console.log(room, matrix);
+    socket.broadcast.to(room).emit('send_game', matrix);
+    console.log(room, matrix);
   })
 
   socket.on('send_message', (data) => { 
-    socket.to(data.room).emit("receive_message", data);
+    io.to(data.room).emit("receive_message", data);
   })
 
   socket.on('disconnect', () => {
